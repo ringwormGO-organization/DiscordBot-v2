@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/JDA-5.0.0-beta.18-withDependencies.jar" sourcepath="lib/JDA-5.0.0-beta.18-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/DiscordBot-v2/lib/JDA-5.0.0-beta.18-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
