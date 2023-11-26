@@ -1,5 +1,11 @@
 package org.ringwormgo.discordbotv2;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
+import javax.security.auth.login.LoginException;
+
 import org.ringwormgo.discordbotv2.event.Event;
 import org.ringwormgo.discordbotv2.event.Listener;
 
@@ -14,11 +20,18 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Main {
-	public static final String TOKEN = "MTE3ODI1MjAyMzUxNTMyODU3Mg.GFEH8r.hXmktqqh6Np0EJpNoOnYrIFr9pEUstTwe-ZYKU"; 
+	public static String TOKEN; 
 	
 	public static JDA jda;
 	
-	public static void main(String[] args) {
+	public Main() throws Exception {
+		File token = new File("token.env");
+		if(!token.exists()) throw new LoginException("Token file missing!");
+		
+		BufferedReader reader = new BufferedReader(new FileReader(token));
+		TOKEN = reader.readLine();
+		reader.close();
+		
 		jda = JDABuilder.createDefault(TOKEN)
 				.enableIntents(GatewayIntent.MESSAGE_CONTENT)
 				.enableIntents(GatewayIntent.GUILD_MODERATION)
@@ -39,5 +52,9 @@ public class Main {
 	                    .addOption(OptionType.INTEGER, "delete", "Deletes messages sent by the user from enters seconds ago", true)
 	                    .addOption(OptionType.STRING, "reason", "The ban reason")
 	        ).queue();
+	}
+	
+	public static void main(String[] args) throws Exception {
+		new Main();
 	}
 }
