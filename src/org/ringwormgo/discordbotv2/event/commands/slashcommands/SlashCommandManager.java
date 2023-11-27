@@ -3,6 +3,7 @@ package org.ringwormgo.discordbotv2.event.commands.slashcommands;
 import java.util.HashMap;
 
 import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.BanSlashCommand;
+import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.KickSlashCommand;
 import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.PingSlashCommand;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -12,6 +13,7 @@ public class SlashCommandManager {
 	
 	public SlashCommandManager() {
 		commands.put("ban", new BanSlashCommand());
+		commands.put("kick", new KickSlashCommand());
 		commands.put("ping", new PingSlashCommand());
 	}
 	
