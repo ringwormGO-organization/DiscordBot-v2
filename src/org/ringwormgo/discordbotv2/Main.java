@@ -50,7 +50,12 @@ public class Main {
 	                    .setGuildOnly(true)
 	                    .addOption(OptionType.USER, "user", "The user to ban", true)
 	                    .addOption(OptionType.INTEGER, "delete", "Deletes messages sent by the user from enters seconds ago", true)
-	                    .addOption(OptionType.STRING, "reason", "The ban reason")
+	                    .addOption(OptionType.STRING, "reason", "The ban reason"),
+	            Commands.slash("kick", "Kicks a user form the server")
+			            .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.BAN_MEMBERS)) // only usable with ban permissions
+		                .setGuildOnly(true)
+		                .addOption(OptionType.USER, "user", "The user to kick", true)
+		                .addOption(OptionType.STRING, "reason", "The kick reason")
 	        ).queue();
 	}
 	
