@@ -2,7 +2,9 @@ package org.ringwormgo.discordbotv2.event.commands.slashcommands;
 
 import java.util.HashMap;
 
+import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.AboutSlashCommand;
 import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.BanSlashCommand;
+import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.GithubSlashCommand;
 import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.KickSlashCommand;
 import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.PingSlashCommand;
 
@@ -15,6 +17,8 @@ public class SlashCommandManager {
 		commands.put("ban", new BanSlashCommand());
 		commands.put("kick", new KickSlashCommand());
 		commands.put("ping", new PingSlashCommand());
+		commands.put("about", new AboutSlashCommand());
+		commands.put("github", new GithubSlashCommand());
 	}
 	
 	public void manage(SlashCommandInteractionEvent event) {

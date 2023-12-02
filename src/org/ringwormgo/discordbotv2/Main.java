@@ -55,7 +55,9 @@ public class Main {
 			            .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.BAN_MEMBERS)) // only usable with ban permissions
 		                .setGuildOnly(true)
 		                .addOption(OptionType.USER, "user", "The user to kick", true)
-		                .addOption(OptionType.STRING, "reason", "The kick reason")
+		                .addOption(OptionType.STRING, "reason", "The kick reason"),
+		        Commands.slash("about", "Learn about the bot!"),
+		        Commands.slash("github", "The github url for RingWormGO")
 	        ).queue();
 	}
 	
