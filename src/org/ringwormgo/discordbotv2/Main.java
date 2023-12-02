@@ -20,7 +20,9 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Main {
-	public static String TOKEN; 
+	public static String DISCORD_TOKEN; 
+	public static String GITHUB_LOGIN;
+	public static String GITHUB_TOKEN;
 	
 	public static JDA jda;
 	
@@ -29,10 +31,12 @@ public class Main {
 		if(!token.exists()) throw new LoginException("Token file missing!");
 		
 		BufferedReader reader = new BufferedReader(new FileReader(token));
-		TOKEN = reader.readLine();
+		DISCORD_TOKEN = reader.readLine();
+		GITHUB_LOGIN = reader.readLine();
+		GITHUB_TOKEN = reader.readLine();
 		reader.close();
 		
-		jda = JDABuilder.createDefault(TOKEN)
+		jda = JDABuilder.createDefault(DISCORD_TOKEN)
 				.enableIntents(GatewayIntent.MESSAGE_CONTENT)
 				.enableIntents(GatewayIntent.GUILD_MODERATION)
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)

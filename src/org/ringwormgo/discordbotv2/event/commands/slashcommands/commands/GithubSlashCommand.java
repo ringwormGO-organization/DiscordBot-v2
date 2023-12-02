@@ -5,7 +5,7 @@ import org.ringwormgo.discordbotv2.event.commands.slashcommands.SlashCommand;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 public class GithubSlashCommand extends SlashCommand {
-	private String githubURL = "https://github.com/ringwormGO-organization";
+	private String githubURL = "";
 	
 	public GithubSlashCommand() {}
 
