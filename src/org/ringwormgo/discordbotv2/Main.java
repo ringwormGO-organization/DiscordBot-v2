@@ -6,6 +6,8 @@ import java.io.FileReader;
 
 import javax.security.auth.login.LoginException;
 
+import org.kohsuke.github.GitHub;
+import org.kohsuke.github.GitHubBuilder;
 import org.ringwormgo.discordbotv2.event.Event;
 import org.ringwormgo.discordbotv2.event.Listener;
 
@@ -25,6 +27,7 @@ public class Main {
 	public static String GITHUB_TOKEN;
 	
 	public static JDA jda;
+	public static GitHub github;
 	
 	public Main() throws Exception {
 		File token = new File("token.env");
@@ -61,8 +64,12 @@ public class Main {
 		                .addOption(OptionType.USER, "user", "The user to kick", true)
 		                .addOption(OptionType.STRING, "reason", "The kick reason"),
 		        Commands.slash("about", "Learn about the bot!"),
-		        Commands.slash("github", "The github url for RingWormGO")
+		        Commands.slash("github", "Get stats for a github repo")
+		        	.addOption(OptionType.STRING, "account", "GitHub repo owner", true)
+		        	.addOption(OptionType.STRING, "repo", "GitHub repo name", true)
 	        ).queue();
+		
+		github = new GitHubBuilder().withOAuthToken(GITHUB_TOKEN, GITHUB_LOGIN).build();
 	}
 	
 	public static void main(String[] args) throws Exception {
