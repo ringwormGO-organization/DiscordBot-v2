@@ -22,12 +22,16 @@ public class SlashCommandManager {
 	}
 	
 	public void manage(SlashCommandInteractionEvent event) {
-		SlashCommand cmd = commands.get(event.getName());
-		if(cmd == null) {
-			System.err.printf("Unknown command %s used by %#s%n", event.getName(), event.getUser());
-			event.reply("Unknown command!").queue();
-			return;
-		}
-		cmd.execute(event);
+		System.out.println("Slash command " + event.getName() + " used");
+		
+		new Thread(() -> {
+			SlashCommand cmd = commands.get(event.getName());
+			if(cmd == null) {
+				System.err.printf("Unknown command %s used by %#s%n", event.getName(), event.getUser());
+				event.reply("Unknown command!").queue();
+				return;
+			}
+			cmd.execute(event);
+		}, event.getName() + " command execution thread").start();
 	}
 }
