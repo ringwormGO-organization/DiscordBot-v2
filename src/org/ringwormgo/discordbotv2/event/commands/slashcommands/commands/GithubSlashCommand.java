@@ -1,6 +1,5 @@
 package org.ringwormgo.discordbotv2.event.commands.slashcommands.commands;
 
-import java.io.IOException;
 import java.text.DateFormat;
 
 import org.kohsuke.github.GHIssueState;

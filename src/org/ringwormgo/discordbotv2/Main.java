@@ -3,6 +3,8 @@ package org.ringwormgo.discordbotv2;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
@@ -15,6 +17,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -29,6 +33,8 @@ public class Main {
 	public static JDA jda;
 	public static GitHub github;
 	
+	public static HashMap<String, HashMap<List<Role>, Guild>> mutedPplAndRoles = new HashMap<String, HashMap<List<Role>, Guild>>();
+		
 	public Main() throws Exception {
 		File token = new File("token.env");
 		if(!token.exists()) throw new LoginException("Token file missing!");
@@ -59,17 +65,21 @@ public class Main {
 	                    .addOption(OptionType.INTEGER, "delete", "Deletes messages sent by the user from enters seconds ago", true)
 	                    .addOption(OptionType.STRING, "reason", "The ban reason"),
 	            Commands.slash("kick", "Kicks a user form the server")
-			            .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.BAN_MEMBERS)) // only usable with ban permissions
+			            .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.KICK_MEMBERS)) // only usable with ban permissions
 		                .setGuildOnly(true)
 		                .addOption(OptionType.USER, "user", "The user to kick", true)
 		                .addOption(OptionType.STRING, "reason", "The kick reason"),
 		        Commands.slash("about", "Learn about the bot!"),
 		        Commands.slash("github", "Get stats for a github repo")
 		        	.addOption(OptionType.STRING, "account", "GitHub repo owner", true)
-		        	.addOption(OptionType.STRING, "repo", "GitHub repo name", true)
+		        	.addOption(OptionType.STRING, "repo", "GitHub repo name", true),
+		        Commands.slash("timeout", "Timeout a person")
+		        	.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
+		        	.addOption(OptionType.USER, "user", "The user to timeout", true)
+		        	.addOption(OptionType.INTEGER, "time", "Number of hours to timeout", true)
+		        	.addOption(OptionType.STRING, "reason", "Reason for timeout")
 	        ).queue();
-		
-		github = new GitHubBuilder().withOAuthToken(GITHUB_TOKEN, GITHUB_LOGIN).build();
+		github = new GitHubBuilder().withOAuthToken(GITHUB_TOKEN, GITHUB_LOGIN).build();		
 	}
 	
 	public static void main(String[] args) throws Exception {

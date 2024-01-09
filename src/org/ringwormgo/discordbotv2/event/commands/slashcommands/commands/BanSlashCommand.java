@@ -32,6 +32,13 @@ public class BanSlashCommand extends SlashCommand {
         event.deferReply().queue();
         
         String reason = event.getOption("reason", OptionMapping::getAsString);
+        
+        try {
+        	target.openPrivateChannel().complete().sendMessage("**You were banned out in \"" + event.getGuild().getName() + "\" for \"" + reason + "\"!**").queue();
+        } catch(Exception e) {
+        	e.printStackTrace();
+        }
+        
         AuditableRestAction<Void> action = event.getGuild().ban(target, deleteTF, TimeUnit.SECONDS); // Start building our ban request
         action = action.reason(reason != null ? reason : "Banned by " + event.getUser().getName()); // set the reason for the ban in the audit logs and ban log                
         action.queue(v -> {

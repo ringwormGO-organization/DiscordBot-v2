@@ -1,5 +1,7 @@
 package org.ringwormgo.discordbotv2.event.commands.slashcommands.commands;
 
+import java.util.concurrent.TimeUnit;
+
 import org.ringwormgo.discordbotv2.event.commands.slashcommands.SlashCommand;
 
 import net.dv8tion.jda.api.Permission;
@@ -9,18 +11,19 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
 
-public class KickSlashCommand extends SlashCommand {
-	public KickSlashCommand() {}
+public class TimeoutSlashCommand extends SlashCommand {
+	public TimeoutSlashCommand() {}
 
 	@Override
 	public void execute(SlashCommandInteractionEvent event) {
-		if (!event.getMember().hasPermission(Permission.KICK_MEMBERS)) {
+		if (!event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
             event.reply("You cannot kick members! Nice try ;)").setEphemeral(true).queue();
             return;
         }
-        
-        User target = event.getOption("user", OptionMapping::getAsUser);
+		
+		User target = event.getOption("user", OptionMapping::getAsUser);
         Member member = event.getOption("user", OptionMapping::getAsMember);
+        int hours = event.getOption("time", OptionMapping::getAsInt);
         if (!event.getMember().canInteract(member)) {
             event.reply("You cannot kick this user.").setEphemeral(true).queue();
             return;
@@ -28,21 +31,17 @@ public class KickSlashCommand extends SlashCommand {
         event.deferReply().queue();
         
         String reason = event.getOption("reason", OptionMapping::getAsString);
-        if(reason == null) reason = "**" + target.getName() + "** was kicked by **" + event.getUser().getName() + "**!";
+        if(reason == null) reason = "**" + target.getName() + "** was timed out by **" + event.getUser().getName() + "**!";
         
-        try {
-        	target.openPrivateChannel().complete().sendMessage("**You were kicked out in \"" + event.getGuild().getName() + "\" for \"" + reason + "\"!**").queue();
-        } catch(Exception e) {
-        	e.printStackTrace();
-        }
-        
-        AuditableRestAction<Void> action = event.getGuild().kick(target).reason(reason); // Start building our ban request
-        action = action.reason(reason); // set the reason for the ban in the audit logs and ban log                
+        AuditableRestAction<Void> action = event.getGuild().timeoutFor(target, hours, TimeUnit.HOURS).reason(reason); // Start building our timeout request
+        action = action.reason(reason); // set the reason for the timeout in the audit logs and ban log                
         action.queue(v -> {
-            event.getHook().editOriginal("**" + target.getName() + "** was kicked by **" + event.getUser().getName() + "**!").queue();
+            event.getHook().editOriginal("**" + target.getName() + "** was timed out by **" + event.getUser().getName() + "**!").queue();
         }, error -> {
             event.getHook().editOriginal("Some error occurred, try again!").queue();
             error.printStackTrace();
         });
+        
+        target.openPrivateChannel().complete().sendMessage("**You were timed out in \"" + event.getGuild().getName() + "\" for \"" + reason + "\"! You will be in timeout for " + hours + "hours!**").queue();
 	}
 }
