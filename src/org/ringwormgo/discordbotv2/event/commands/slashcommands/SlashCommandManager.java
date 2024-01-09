@@ -6,6 +6,7 @@ import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.AboutSl
 import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.BanSlashCommand;
 import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.GithubSlashCommand;
 import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.KickSlashCommand;
+import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.TimeoutSlashCommand;
 import org.ringwormgo.discordbotv2.event.commands.slashcommands.commands.PingSlashCommand;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -19,6 +20,8 @@ public class SlashCommandManager {
 		commands.put("ping", new PingSlashCommand());
 		commands.put("about", new AboutSlashCommand());
 		commands.put("github", new GithubSlashCommand());
+		
+		commands.put("timeout", new TimeoutSlashCommand());
 	}
 	
 	public void manage(SlashCommandInteractionEvent event) {
